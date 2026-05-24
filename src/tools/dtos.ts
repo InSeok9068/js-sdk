@@ -78,7 +78,14 @@ export interface OAuth2Provider {
     tokenURL: string;
     userInfoURL: string;
     displayName: string;
+    logo: string;
     extra?: { [key: string]: any };
+}
+
+export interface ConfigurableOAuth2Provider {
+    name:        string;
+    displayName: string;
+    logo:        string;
 }
 
 export interface OAuth2Config {

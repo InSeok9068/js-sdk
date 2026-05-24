@@ -959,6 +959,12 @@ const result = await batch.send()
 
 // Returns type indexed map with scaffolded collection models populated with their default field values.
 🔐 pb.collections.getScaffolds(options = {});
+
+// Returns a list with all configurable OAuth2 providers.
+🔐 pb.collections.getAllOAuth2Providers(options = {});
+
+// Tests the specified view query and returns a sample of the resulting records.
+🔐 pb.collections.dryRunViewQuery(query, options = {});
 ```
 
 ---
@@ -1066,6 +1072,13 @@ pb.realtime.onDisconnect = function(activeSubscriptions)
 
 // Runs the specified cron job.
 🔐 pb.crons.run(jobId, options = {});
+```
+
+##### SQLService
+
+```js
+// Runs the specified raw SQL query.
+🔐 pb.sql.run(query, options = {});
 ```
 
 ---

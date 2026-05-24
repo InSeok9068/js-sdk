@@ -10,6 +10,7 @@ import { HealthService } from "@/services/HealthService";
 import { FileService } from "@/services/FileService";
 import { BackupService } from "@/services/BackupService";
 import { CronService } from "@/services/CronService";
+import { SQLService } from "@/services/SQLService";
 import { BatchService } from "@/services/BatchService";
 import { RecordModel } from "@/tools/dtos";
 import {
@@ -158,6 +159,11 @@ export default class Client {
      */
     readonly crons: CronService;
 
+    /**
+     * An instance of the service that handles the **SQL APIs**.
+     */
+    readonly sql: SQLService;
+
     private cancelControllers: { [key: string]: AbortController } = {};
     private recordServices: { [key: string]: RecordService } = {};
     private enableAutoCancellation: boolean = true;
@@ -184,6 +190,7 @@ export default class Client {
         this.health = new HealthService(this);
         this.backups = new BackupService(this);
         this.crons = new CronService(this);
+        this.sql = new SQLService(this);
     }
 
     /**

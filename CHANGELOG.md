@@ -1,3 +1,10 @@
+## 0.27.0
+
+- Added `pb.sql.run(query)` handler for the upcoming PocketBase v0.39.0 "SQL console" debug interface ([pocketbase#2236](https://github.com/pocketbase/pocketbase/issues/2236)).
+
+- Added missing PocketBase v0.37+ collection meta endpoint handlers (`pb.collections.dryRunViewQuery(query)` and `pb.collections.getAllOAuth2Providers()`).
+
+
 ## 0.26.9
 
 - Optimized realtime `subscribe`/`unsubscribe` calls to minimize async errors ([pocketbase#7684](https://github.com/pocketbase/pocketbase/issues/7684)).

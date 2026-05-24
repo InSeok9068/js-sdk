@@ -80,9 +80,15 @@ interface OAuth2Provider {
     tokenURL: string;
     userInfoURL: string;
     displayName: string;
+    logo: string;
     extra?: {
         [key: string]: any;
     };
+}
+interface ConfigurableOAuth2Provider {
+    name: string;
+    displayName: string;
+    logo: string;
 }
 interface OAuth2Config {
     enabled: boolean;
@@ -961,6 +967,12 @@ declare class CollectionService extends CrudService<CollectionModel> {
      */
     import(collections: Array<CollectionModel>, deleteMissing?: boolean, options?: CommonOptions): Promise<true>;
     /**
+     * Deletes all records associated with the specified collection.
+     *
+     * @throws {ClientResponseError}
+     */
+    truncate(collectionIdOrName: string, options?: CommonOptions): Promise<true>;
+    /**
      * Returns type indexed map with scaffolded collection models
      * populated with their default field values.
      *
@@ -970,11 +982,19 @@ declare class CollectionService extends CrudService<CollectionModel> {
         [key: string]: CollectionModel;
     }>;
     /**
-     * Deletes all records associated with the specified collection.
+     * Returns a list with all configurable OAuth2 providers.
      *
      * @throws {ClientResponseError}
      */
-    truncate(collectionIdOrName: string, options?: CommonOptions): Promise<true>;
+    getAllOAuth2Providers(options?: CommonOptions): Promise<Array<ConfigurableOAuth2Provider>>;
+    /**
+     * Executes the specified view query and returns a sample of the resulting records.
+     *
+     * @throws {ClientResponseError}
+     */
+    dryRunViewQuery(query: string, options?: CommonOptions): Promise<Array<{
+        [key: string]: any;
+    }>>;
 }
 interface HourlyStats {
     total: number;
@@ -1112,6 +1132,25 @@ declare class CronService extends BaseService {
      * @throws {ClientResponseError}
      */
     run(jobId: string, options?: CommonOptions): Promise<boolean>;
+}
+interface SQLResult {
+    execTime: number;
+    affectedRows: number;
+    columns: Array<{
+        name: string;
+        type: string;
+        nullable: boolean;
+    }>;
+    rows: Array<Array<string | null>>;
+}
+declare class SQLService extends BaseService {
+    /**
+     * Executes the specified raw SQL query.
+     * This operation is allowed only for superusers.
+     *
+     * @throws {ClientResponseError}
+     */
+    run(query: string, options?: CommonOptions): Promise<SQLResult>;
 }
 interface BatchRequest {
     method: string;
@@ -1290,6 +1329,10 @@ declare class Client {
      * An instance of the service that handles the **Cron APIs**.
      */
     readonly crons: CronService;
+    /**
+     * An instance of the service that handles the **SQL APIs**.
+     */
+    readonly sql: SQLService;
     private cancelControllers;
     private recordServices;
     private enableAutoCancellation;
