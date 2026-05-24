@@ -21,7 +21,7 @@ describe("HealthService", function () {
     });
 
     describe("check()", function () {
-        test("Should send a healt check request", async function () {
+        test("Should send a health check request", async function () {
             fetchMock.on({
                 method: "GET",
                 url: service.client.buildURL("/api/health") + "?q1=123",
